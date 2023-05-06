@@ -6,6 +6,7 @@
 
 #include <tchar.h>
 #include <windows.h>
+#include "curvefilling.cpp"
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -82,6 +83,12 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 {
     switch (message)                  /* handle the messages */
     {
+        case WM_RBUTTONDOWN:
+            DrawSquare(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 ,0));
+            break;
+        case WM_LBUTTONDOWN:
+            fillSquareHermiteCurves(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 , 255));
+            break;
         case WM_DESTROY:
             PostQuitMessage (0);       /* send a WM_QUIT to the message queue */
             break;

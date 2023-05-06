@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1683331020 source:c:\users\moaya\onedrive\desktop\cg project\cg-project\main.cpp
+	<tchar.h>
+	<windows.h>
+	"curvefilling.cpp"
+
+1683332248 c:\users\moaya\onedrive\desktop\cg project\cg-project\curvefilling.cpp
+	<iostream>
+
