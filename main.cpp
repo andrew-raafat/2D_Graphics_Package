@@ -81,13 +81,17 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
 
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    HCURSOR cursor = LoadCursor(NULL, IDC_CROSS);
+    SetCursor(cursor);
     switch (message)                  /* handle the messages */
     {
         case WM_RBUTTONDOWN:
-            DrawSquare(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 ,0));
+            drawRectangle(GetDC(hwnd) , Point(200 , 200 ) , 200 , 350 , RGB(0 , 0 ,0));
+            //DrawSquare(GetDC(hwnd) , Point ( 300 , 300) , 200 ,  RGB(0 , 0 ,0));
             break;
         case WM_LBUTTONDOWN:
-            fillSquareHermiteCurves(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 , 255));
+            fillRectangleBezierCurve(GetDC(hwnd) ,RGB(0 , 0 , 255) ,  Point(200 , 200 ) , 200 , 350 );
+            //fillSquareHermiteCurves(GetDC(hwnd) , Point(300 , 300 ) , 200 ,  RGB(255 , 0 ,0));
             break;
         case WM_DESTROY:
             PostQuitMessage (0);       /* send a WM_QUIT to the message queue */

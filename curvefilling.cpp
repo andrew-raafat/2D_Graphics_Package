@@ -1,5 +1,31 @@
+#include <string>
 #include <iostream>
-using namespace std;
+
+class Constraint{
+    public:
+    int w , l , xCons , yCons;
+    std::string type;
+    Constraint(int w=0 , int l =0 , std::string type = ""){
+    this->w = w;
+    this->l = l;
+    this->type = type;
+    setConsBasedOnType();
+    }
+
+    void setConsBasedOnType(){
+        if(this->type == "R")
+            {
+                this->xCons = this->w;
+                this->yCons = this->l;
+            }
+        else
+            {
+                this-> xCons = l;
+                this -> yCons = l;
+            }
+    }
+
+};
 
 void swap(int &x , int &y)
 {
@@ -101,12 +127,30 @@ int Round(double x){
     return (int) x+0.5;
 };
 
-void drawHermiteCurve(HDC hdc ,Point P0 ,Point T0 ,Point P1 ,Point T1 , COLORREF c , int xc , int yc , int l ){
+int getxConstraintStart(Constraint cons , Point c){
+        return c.x - (int)(cons.xCons /2);
+}
+int getxConstraintEnd(int ConstraintStart , Constraint cons){
+        return ConstraintStart + cons.xCons;
+
+}
+
+int getyConstraintStart(Constraint cons , Point c){
+        return c.y - (int)(cons.yCons /2);
+}
+int getyConstraintEnd(int ConstraintStart , Constraint cons){
+        return ConstraintStart + cons.yCons;
+}
+
+
+void drawHermiteCurveWithConstraints(HDC hdc ,Point P0 ,Point T0 ,Point P1 ,Point T1 , COLORREF color , Point c , Constraint cons ){
     double* xCoff = GetHermiteCoeff(P0.x , T0.x ,P1.x  , T1.x);
     double* yCoff = GetHermiteCoeff(P0.y , T0.y ,P1.y  , T1.y);
 
-    int xConstraintStart = xc - (int)(l/2) ;
-    int xConstraintEnd = xConstraintStart + l;
+    int xConstraintStart = getxConstraintStart(cons , c);
+    int xConstraintEnd = getxConstraintEnd(xConstraintStart , cons);
+    int yConstraintStart = getyConstraintStart(cons , c);
+    int yConstraintEnd = getyConstraintEnd(yConstraintStart , cons);
 
     double dt=1.0/200;
     for(double t=0;t<=1;t+=dt)
@@ -119,37 +163,60 @@ void drawHermiteCurve(HDC hdc ,Point P0 ,Point T0 ,Point P1 ,Point T1 , COLORREF
         int y=round(dotProduct(yCoff,vt));
         if(x < xConstraintStart || x > xConstraintEnd)
             continue;
-        SetPixel(hdc,x,y,c);
+        if(y < yConstraintStart || y > yConstraintEnd)
+            continue;
+        if(t==0)MoveToEx(hdc,x,y,NULL);else LineTo(hdc,x,y);
 
         delete[] vt;
     }
 }
 
-//void drawBezierCurve(HDC hdc , Point P0 , Point P1 , Point P2 , Point P3, COLORREF c)
-//{
-   // Point T0(3*(P1.x - P0.x) , 3*(P1.y - P0.y));
-    //Point T1(3*(P3.x - P2.x) , 3*(P3.y - P2.y));
-    //drawHermiteCurve(hdc , P0 , T0 , P3 , T1 ,c);
-//}
-
-void DrawSquare(HDC hdc , int x , int y , int l , COLORREF c){
-    int xedge = x - (int)(l/2);
-    int yedge = y - (int) (l/2);
+void DrawSquare(HDC hdc , Point c , int l , COLORREF color){
+    int xedge = c.x - (int)(l/2);
+    int yedge = c.y - (int) (l/2);
     SimpleDDA(hdc , xedge , yedge , xedge + l , yedge, RGB(0 , 0 , 0) );
     SimpleDDA(hdc , xedge , yedge , xedge , yedge + l, RGB(0 , 0 , 0) );
     SimpleDDA(hdc , xedge , yedge + l, xedge + l , yedge + l, RGB(0 , 0 , 0) );
     SimpleDDA(hdc , xedge + l  , yedge + l , xedge + l , yedge, RGB(0 , 0 , 0) );
 }
 
-void fillSquareHermiteCurves(HDC hdc , int xc , int yc , int l , COLORREF c){
-    int xdown = xc - (int)(l/2) ; int xup = xdown;
-    int ydown = yc - (int)(l/2); int yup = ydown + l;
-    int constraint = (xc - (int)(l/2)) + l;
+void fillSquareHermiteCurves(HDC hdc , Point c , int l , COLORREF color){
+    int xdown = c.x - (int)(l/2) ; int xup = xdown;
+    int ydown = c.y - (int)(l/2); int yup = ydown + l;
+    int constraint = (c.x - (int)(l/2)) + l;
     while(xdown <= constraint)
     {
-        drawHermiteCurve(hdc , Point(xdown , ydown) , Point(10,0) , Point(xup , yup) , Point(20,0) , c , xc , yc , l);
+        drawHermiteCurveWithConstraints(hdc , Point(xdown , ydown) , Point(20,0) , Point(xup , yup) , Point(20,0) , color , c , Constraint(0, l ,"S"));
         xdown++;
         xup++;
     }
 }
+void drawRectangle(HDC hdc , Point c , int w , int l , COLORREF color)
+{
+    int xedge = c.x - (int)(w/2);
+    int yedge = c.y - (int)(l/2);
+    SimpleDDA(hdc , xedge , yedge , xedge + w , yedge, RGB(0 , 0 , 0) );
+    SimpleDDA(hdc , xedge , yedge , xedge , yedge + l , RGB(0 , 0 , 0) );
+    SimpleDDA(hdc , xedge , yedge + l , xedge + w , yedge + l, RGB(0 , 0 , 0) );
+    SimpleDDA(hdc , xedge + w  , yedge + l , xedge + w , yedge, RGB(0 , 0 , 0) );
+}
 
+void drawBezierCurveWithConstraints(HDC hdc , Point P0 , Point P1 , Point P2 , Point P3, COLORREF color , Point c ,Constraint cons)
+{
+    Point T0(3*(P1.x - P0.x) , 3*(P1.y - P0.y));
+    Point T1(3*(P3.x - P2.x) , 3*(P3.y - P2.y));
+    drawHermiteCurveWithConstraints(hdc , P0 , T0 , P3 , T1 ,color , c , cons );
+}
+
+void fillRectangleBezierCurve(HDC hdc , COLORREF color , Point c , int w , int l)
+{
+    int xedge = c.x - (int)(w/2);
+    int yedge = c.y - (int)(l/2);
+    int constraint = yedge + l;
+    while(yedge <= constraint)
+    {
+        yedge ++;
+        drawBezierCurveWithConstraints(hdc , Point(xedge , yedge) , Point(xedge - 10 , yedge + 10) , Point(xedge - 10, yedge -  10 ) , Point(xedge + w , yedge) ,color , c , Constraint(w , l , "R"));
+    }
+
+}
