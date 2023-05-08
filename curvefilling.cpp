@@ -187,8 +187,8 @@ void fillSquareHermiteCurves(HDC hdc , Point c , int l , COLORREF color){
     while(xdown <= constraint)
     {
         drawHermiteCurveWithConstraints(hdc , Point(xdown , ydown) , Point(20,0) , Point(xup , yup) , Point(20,0) , color , c , Constraint(0, l ,"S"));
-        xdown++;
-        xup++;
+        xdown+=3;
+        xup+=3;
     }
 }
 void drawRectangle(HDC hdc , Point c , int w , int l , COLORREF color)
@@ -215,7 +215,7 @@ void fillRectangleBezierCurve(HDC hdc , COLORREF color , Point c , int w , int l
     int constraint = yedge + l;
     while(yedge <= constraint)
     {
-        yedge ++;
+        yedge+=3;
         drawBezierCurveWithConstraints(hdc , Point(xedge , yedge) , Point(xedge - 10 , yedge + 10) , Point(xedge - 10, yedge -  10 ) , Point(xedge + w , yedge) ,color , c , Constraint(w , l , "R"));
     }
 
