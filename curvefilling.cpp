@@ -7,12 +7,12 @@ void swap(int &x , int &y)
     x = y;
     y = temp;
 }
-
+/*
 int round(double n)
 {
     return (int) n+0.5;
 }
-
+*/
 void SimpleDDA(HDC hdc,int xs,int ys,int xe,int ye,COLORREF color)
 {
     int dx=xe-xs;

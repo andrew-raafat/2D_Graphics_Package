@@ -6,7 +6,13 @@
 
 #include <tchar.h>
 #include <windows.h>
+#include <cmath>
+#include <stack>
 #include "curvefilling.cpp"
+#include "CircleAlgorithms.cpp"
+#include "FillingCircleWithCircles.cpp"
+#include "FloodFill.cpp"
+
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -75,74 +81,6 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
     /* The program return-value is 0 - The value that PostQuitMessage() gave */
     return messages.wParam;
 }
-
-void Draw8Points(HDC hdc, int xc, int yc, int x, int y, COLORREF c)
-{
-    SetPixel(hdc, xc+x, yc+y,c);
-    SetPixel(hdc, xc+x, yc-y,c);
-    SetPixel(hdc, xc-x, yc+y,c);
-    SetPixel(hdc, xc-x, yc-y,c);
-    SetPixel(hdc, xc+y, yc+x,c);
-    SetPixel(hdc, xc+y, yc-x,c);
-    SetPixel(hdc, xc-y, yc+x,c);
-    SetPixel(hdc, xc-y, yc-x,c);
-}
-
-void DirectCircle(HDC hdc, int xc, int yc, int r, COLORREF c)
-{
-    int x=0;
-    double y=r;
-    int r2=r*r;
-    Draw8Points(hdc, xc, yc, 0, r, c);
-    while (x<y)
-    {
-        x++;
-        y=(double)sqrt(r2-(x*x));
-        Draw8Points(hdc, xc, yc, x, round(y), c);
-    }
-}
-
-void PolarCircle(HDC hdc, int xc, int yc, int R, COLORREF c)
-{
-    double d_theta=1.0/R;
-    for (double theta=0; theta<6.28; theta+=d_theta)
-    {
-        double x=xc+R*cos(theta);
-        double y=yc+R*sin(theta);
-        SetPixel(hdc, x, y, c);
-    }
-}
-
-void ModifiedPolar(HDC hdc, int xc, int yc, int R, COLORREF c)
-{
-    double d_theta=1.0/R;
-    double x=R, y=0.0, theta=0.0;
-    Draw8Points(hdc, xc, yc, R, 0, c);
-    while (x>y)
-    {
-        theta+=d_theta;
-        x=xc+R*cos(theta);
-        y=yc+R*sin(theta);
-        Draw8Points(hdc, xc, yc, round(x), round(y), c);
-    }
-}
-
-void IterativePolar(HDC hdc, int xc, int yc, int R, COLORREF c)
-{
-    double d_theta = 1.0/R;
-    double ct=cos(d_theta), st=sin(d_theta);
-    int x=R, y=0;
-    Draw8Points(hdc, xc, yc, R, 0, c);
-    while (x>y)
-    {
-        double x1= x*ct-y*st;
-        y=x*st+y*ct;
-        x=x1;
-        Draw8Points(hdc, xc, yc, round(x), round(y), c);
-    }
-}
-
-
 /*  This function is called by the Windows function DispatchMessage()  */
 
 LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -150,10 +88,12 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
     switch (message)                  /* handle the messages */
     {
         case WM_RBUTTONDOWN:
-            DrawSquare(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 ,0));
+            ModifiedMidPoint(GetDC(hwnd), 100, 100, 50, RGB(0,0,0));
+            //DrawSquare(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 ,0));
             break;
         case WM_LBUTTONDOWN:
-            fillSquareHermiteCurves(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 , 255));
+            recursionFloodFill(GetDC(hwnd), 100, 100, RGB(0,0,0), RGB(255,255,0));
+            //fillSquareHermiteCurves(GetDC(hwnd) , 100 , 100 , 50 , RGB(0 , 0 , 255));
             break;
         case WM_DESTROY:
             PostQuitMessage (0);       /* send a WM_QUIT to the message queue */

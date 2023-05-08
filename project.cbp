@@ -37,6 +37,9 @@
 			<Add library="kernel32" />
 			<Add library="comctl32" />
 		</Linker>
+		<Unit filename="CircleAlgorithm.cpp" />
+		<Unit filename="FillingCircleWithCircles.cpp" />
+		<Unit filename="FloodFill.cpp" />
 		<Unit filename="curvefilling.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
