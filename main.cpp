@@ -10,7 +10,7 @@
 #include <stack>
 #include "curvefilling.cpp"
 #include "CircleAlgorithms.cpp"
-#include "FillingCircleWithCircles.cpp"
+#include "FillingCircle.cpp"
 #include "FloodFill.cpp"
 
 
