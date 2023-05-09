@@ -1,93 +1,99 @@
-#if defined(UNICODE) && !defined(_UNICODE)
-    #define _UNICODE
-#elif defined(_UNICODE) && !defined(UNICODE)
-    #define UNICODE
-#endif
+#include <Windows.h>
+#include<bits/stdc++.h>
+#include<math.h>
+#include "Ellipse.cpp"
 
-#include <tchar.h>
-#include <windows.h>
+using namespace std;
 
-/*  Declare Windows procedure  */
-LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
+int A = 0, B = 0;
+int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
+int co = 0;
 
-/*  Make the class name into a global variable  */
-TCHAR szClassName[ ] = _T("CodeBlocksWindowsApp");
 
-int WINAPI WinMain (HINSTANCE hThisInstance,
-                     HINSTANCE hPrevInstance,
-                     LPSTR lpszArgument,
-                     int nCmdShow)
+LRESULT CALLBACK WindowProc(HWND hwnd, UINT m, WPARAM wParam, LPARAM lParam)
 {
-    HWND hwnd;               /* This is the handle for our window */
-    MSG messages;            /* Here messages to the application are saved */
-    WNDCLASSEX wincl;        /* Data structure for the windowclass */
+    HDC hdc;
+//    static int A = 0, B = 0;
+//    static int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
+//    static int co = 0;
 
-    /* The Window structure */
-    wincl.hInstance = hThisInstance;
-    wincl.lpszClassName = szClassName;
-    wincl.lpfnWndProc = WindowProcedure;      /* This function is called by windows */
-    wincl.style = CS_DBLCLKS;                 /* Catch double-clicks */
-    wincl.cbSize = sizeof (WNDCLASSEX);
-
-    /* Use default icon and mouse-pointer */
-    wincl.hIcon = LoadIcon (NULL, IDI_APPLICATION);
-    wincl.hIconSm = LoadIcon (NULL, IDI_APPLICATION);
-    wincl.hCursor = LoadCursor (NULL, IDC_ARROW);
-    wincl.lpszMenuName = NULL;                 /* No menu */
-    wincl.cbClsExtra = 0;                      /* No extra bytes after the window class */
-    wincl.cbWndExtra = 0;                      /* structure or the window instance */
-    /* Use Windows's default colour as the background of the window */
-    wincl.hbrBackground = (HBRUSH) COLOR_BACKGROUND;
-
-    /* Register the window class, and if it fails quit the program */
-    if (!RegisterClassEx (&wincl))
-        return 0;
-
-    /* The class is registered, let's create the program*/
-    hwnd = CreateWindowEx (
-           0,                   /* Extended possibilites for variation */
-           szClassName,         /* Classname */
-           _T("Code::Blocks Template Windows App"),       /* Title Text */
-           WS_OVERLAPPEDWINDOW, /* default window */
-           CW_USEDEFAULT,       /* Windows decides the position */
-           CW_USEDEFAULT,       /* where the window ends up on the screen */
-           544,                 /* The programs width */
-           375,                 /* and height in pixels */
-           HWND_DESKTOP,        /* The window is a child-window to desktop */
-           NULL,                /* No menu */
-           hThisInstance,       /* Program Instance handler */
-           NULL                 /* No Window Creation data */
-           );
-
-    /* Make the window visible on the screen */
-    ShowWindow (hwnd, nCmdShow);
-
-    /* Run the message loop. It will run until GetMessage() returns 0 */
-    while (GetMessage (&messages, NULL, 0, 0))
+    switch (m)
     {
-        /* Translate virtual-key messages into character messages */
-        TranslateMessage(&messages);
-        /* Send message to WindowProcedure */
-        DispatchMessage(&messages);
+
+
+        case WM_RBUTTONDOWN:
+        {
+            hdc = GetDC(hwnd);
+            xc = LOWORD(lParam);
+            yc = HIWORD(lParam);
+            ReleaseDC(hwnd, hdc);
+        }
+            break;
+
+        case WM_LBUTTONDOWN:
+        {
+            if (co == 0)
+            {
+                hdc = GetDC(hwnd);
+                xA = LOWORD(lParam);
+                yA = HIWORD(lParam);
+                A = sqrt(pow(xc - xA, 2) + pow(yc - yA, 2));
+                ReleaseDC(hwnd, hdc);
+                co++;
+            } else if (co == 1)
+            {
+                xB = LOWORD(lParam);
+                yB = HIWORD(lParam);
+                B = sqrt(pow(xc - xB, 2) + pow(yc - yB, 2));
+
+                hdc = GetDC(hwnd);
+                //Ellipse_Direct(hdc, xc, yc, A, B, RGB(120, 0, 0));
+                //Ellipse_polar(hdc, xc, yc, A, B, RGB(120, 0, 0));
+                Ellipse_Midpoint(hdc, xc, yc, A, B, RGB(120, 0, 0));
+                co = 0;
+                ReleaseDC(hwnd, hdc);
+            }
+
+
+        }
+            break;
+
+
+        case WM_DESTROY:
+            PostQuitMessage(0);
+            break;
+
+
+        default:
+            return DefWindowProc(hwnd, m, wParam, lParam);
     }
 
-    /* The program return-value is 0 - The value that PostQuitMessage() gave */
-    return messages.wParam;
+    return 0;
 }
 
 
-/*  This function is called by the Windows function DispatchMessage()  */
-
-LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
+int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh)
 {
-    switch (message)                  /* handle the messages */
+    WNDCLASS wc;
+    wc.lpszClassName = "MyClass";
+    wc.lpszMenuName = NULL;
+    wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+    wc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
+    wc.hbrBackground = (HBRUSH) GetStockObject(LTGRAY_BRUSH);
+    wc.style = CS_HREDRAW | CS_VREDRAW;
+    wc.cbClsExtra = 0;
+    wc.cbWndExtra = 0;
+    wc.lpfnWndProc = WindowProc;
+    wc.hInstance = h;
+    RegisterClass(&wc);
+    HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 1000, 800, NULL, NULL, h, 0);
+    ShowWindow(hWnd, csh);
+    UpdateWindow(hWnd);
+    MSG msg;
+    while (GetMessage(&msg, NULL, 0, 0) > 0)
     {
-        case WM_DESTROY:
-            PostQuitMessage (0);       /* send a WM_QUIT to the message queue */
-            break;
-        default:                      /* for messages that we don't deal with */
-            return DefWindowProc (hwnd, message, wParam, lParam);
+        TranslateMessage(&msg);
+        DispatchMessage(&msg);
     }
-
     return 0;
 }
