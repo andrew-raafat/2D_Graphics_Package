@@ -13,6 +13,10 @@
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure(HWND, UINT, WPARAM, LPARAM);
 
+void addMenus(HWND);
+
+HMENU hmenu;
+
 /*  Make the class name into a global variable  */
 TCHAR szClassName[] = _T("CodeBlocksWindowsApp");
 
@@ -351,6 +355,7 @@ mPolygon clipPolygon(mPolygon polygon, double xleft, double xright, double ytop,
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
     HDC hdc = GetDC(hwnd);
+    static COLORREF color = RGB(0,0,0);
     // polygon
     static mPolygon m = mPolygon();
     m.add_Vertex(50, 100);
@@ -361,24 +366,47 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
     m.add_Vertex(90, 70);
     switch (message) /* handle the messages */
     {
+    case WM_CREATE:
+        addMenus(hwnd);
+        break;
+    case WM_COMMAND:
+        switch(wParam)
+        {
+        case 1:
+            color = RGB(0,0,0);
+            break;
+        case 2:
+            color = RGB(255,255,255);
+            break;
+        case 3:
+            color = RGB(255,0,0);
+            break;
+        case 4:
+            color = RGB(0,255,0);
+            break;
+        case 5:
+            color = RGB(0,0,255);
+            break;
+        }
+        break;
     case WM_RBUTTONDBLCLK:
     {
-        m.draw(hdc, RGB(255, 0, 0));
+        m.draw(hdc, color);
         // clipping rectangle
         mPolygon r = mPolygon();
         r.add_Vertex(80, 40);
         r.add_Vertex(80, 140);
         r.add_Vertex(110, 140);
         r.add_Vertex(110, 40);
-        r.draw(hdc);
+        r.draw(hdc,color);
         break;
     }
     case WM_LBUTTONDBLCLK:
     {
-        m.draw(hdc, RGB(255, 255, 255));
+        m.draw(hdc, RGB(255,255,255));
         // clipped poygon
         mPolygon c = clipPolygon(m, 80, 110, 140, 40);
-        c.draw(hdc, RGB(0, 0, 0));
+        c.draw(hdc, color);
         break;
     }
     case WM_DESTROY:
@@ -389,4 +417,16 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
     }
 
     return 0;
+}
+void addMenus(HWND hwnd){
+    hmenu = CreateMenu();
+    HMENU colorMenu = CreateMenu();
+    AppendMenu(hmenu,MF_POPUP,(UINT_PTR)colorMenu,"Color");
+
+    AppendMenu(colorMenu,MF_STRING,1,"black");
+    AppendMenu(colorMenu,MF_STRING,2,"white");
+    AppendMenu(colorMenu,MF_STRING,3,"red");
+    AppendMenu(colorMenu,MF_STRING,4,"green");
+    AppendMenu(colorMenu,MF_STRING,5,"blue");
+    SetMenu(hwnd,hmenu);
 }
