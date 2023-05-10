@@ -78,6 +78,54 @@ int WINAPI WinMain(HINSTANCE hThisInstance,
     return messages.wParam;
 }
 
+void swap(int &x1, int &y1, int &x2, int &y2)
+{
+    int tmp = x1;
+    x1 = x2;
+    x2 = tmp;
+    tmp = y1;
+    y1 = y2;
+    y2 = tmp;
+}
+int Round(double x)
+{
+    return (int)(x + 0.5);
+}
+
+void drawLineDDA(HDC hdc, int x1, int y1, int x2, int y2, COLORREF color)
+{
+    int dy = y2 - y1;
+    int dx = x2 - x1;
+    double m = (double)dy / dx;
+    double mi = (double)dx / dy;
+    if (abs(dx) >= abs(dy))
+    {
+        if (x1 > x2)
+            swap(x1, y1, x2, y2);
+        int x = x1;
+        double y = y1;
+        while (x <= x2)
+        {
+            SetPixel(hdc, x, Round(y), color);
+            x++;
+            y += m;
+        }
+    }
+    else
+    {
+        if (y1 > y2)
+            swap(x1, y1, x2, y2);
+        double x = x1;
+        int y = y1;
+        while (y <= y2)
+        {
+            SetPixel(hdc, Round(x), y, color);
+            y++;
+            x += mi;
+        }
+    }
+}
+
 struct Vertex
 {
     double x, y;
@@ -302,8 +350,37 @@ mPolygon clipPolygon(mPolygon polygon, double xleft, double xright, double ytop,
 
 LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
+    HDC hdc = GetDC(hwnd);
+    // polygon
+    static mPolygon m = mPolygon();
+    m.add_Vertex(50, 100);
+    m.add_Vertex(70, 120);
+    m.add_Vertex(100, 170);
+    m.add_Vertex(120, 150);
+    m.add_Vertex(110, 120);
+    m.add_Vertex(90, 70);
     switch (message) /* handle the messages */
     {
+    case WM_RBUTTONDBLCLK:
+    {
+        m.draw(hdc, RGB(255, 0, 0));
+        // clipping rectangle
+        mPolygon r = mPolygon();
+        r.add_Vertex(80, 40);
+        r.add_Vertex(80, 140);
+        r.add_Vertex(110, 140);
+        r.add_Vertex(110, 40);
+        r.draw(hdc);
+        break;
+    }
+    case WM_LBUTTONDBLCLK:
+    {
+        m.draw(hdc, RGB(255, 255, 255));
+        // clipped poygon
+        mPolygon c = clipPolygon(m, 80, 110, 140, 40);
+        c.draw(hdc, RGB(0, 0, 0));
+        break;
+    }
     case WM_DESTROY:
         PostQuitMessage(0); /* send a WM_QUIT to the message queue */
         break;
