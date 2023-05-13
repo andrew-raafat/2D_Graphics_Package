@@ -6,7 +6,12 @@
 
 #include <tchar.h>
 #include <windows.h>
+#include <string>
+#include <iostream>
+using namespace std;
+#include <vector>
 #include "curvefilling.cpp"
+#include "load.cpp"
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -88,8 +93,8 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
             DrawSquare(GetDC(hwnd) , Point ( 300 , 300) , 200 ,  RGB(0 , 0 ,0));
             break;
         case WM_LBUTTONDOWN:
-            //fillRectangleBezierCurve(GetDC(hwnd) ,RGB(0 , 0 , 255) ,  Point(200 , 200 ) , 200 , 350 );
-            fillSquareHermiteCurves(GetDC(hwnd) , Point(300 , 300 ) , 200 ,  RGB(255 , 0 ,0));
+            //fillRectangleBezierCurve(GetDC(hwnd) ,  Point(200 , 200 ) , 200 , 350 ,RGB(0 , 0 , 255)  );
+            //fillSquareHermiteCurves(GetDC(hwnd) , Point(300 , 300 ) , 200 ,  RGB(255 , 0 ,0));
             break;
         case WM_DESTROY:
             PostQuitMessage (0);       /* send a WM_QUIT to the message queue */

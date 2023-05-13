@@ -1,6 +1,3 @@
-#include <string>
-#include <iostream>
-
 class Constraint{
     public:
     int w , l , xCons , yCons;
@@ -208,7 +205,7 @@ void drawBezierCurveWithConstraints(HDC hdc , Point P0 , Point P1 , Point P2 , P
     drawHermiteCurveWithConstraints(hdc , P0 , T0 , P3 , T1 ,color , c , cons );
 }
 
-void fillRectangleBezierCurve(HDC hdc , COLORREF color , Point c , int w , int l)
+void fillRectangleBezierCurve(HDC hdc , Point c , int w , int l , COLORREF color )
 {
     int xedge = c.x - (int)(w/2);
     int yedge = c.y - (int)(l/2);
