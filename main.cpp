@@ -1,24 +1,50 @@
 #include <Windows.h>
-#include<bits/stdc++.h>
+#include<iostream>
 #include<math.h>
 #include "Ellipse.cpp"
+#include "Line.cpp"
 
 using namespace std;
 
-int A = 0, B = 0;
-int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
-int co = 0;
+void ClearScreen(HDC hdc, int width, int height)
+{
+    RECT rect;
+    rect.left = 0;
+    rect.top = 0;
+    rect.right = width;
+    rect.bottom = height;
+    FillRect(hdc, &rect, (HBRUSH)GetStockObject(LTGRAY_BRUSH));
 
+}
+
+
+
+//int A = 0, B = 0;
+//int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
+//int co = 0;
+
+int windowWidth, windowHeight;
 
 LRESULT CALLBACK WindowProc(HWND hwnd, UINT m, WPARAM wParam, LPARAM lParam)
 {
     HDC hdc;
-//    static int A = 0, B = 0;
-//    static int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
-//    static int co = 0;
+    static int A = 0, B = 0;
+    static int xc = 0, yc = 0, xA = 0, yA = 0, xB = 0, yB = 0;
+    static int co = 0;
+
+    static HWND clearButton;
 
     switch (m)
     {
+
+        case WM_CREATE:
+
+            RECT rect;
+            GetClientRect(hwnd, &rect);
+            windowWidth = (rect.right - rect.left);
+            windowHeight = rect.bottom - rect.top;
+
+            break;
 
 
         case WM_RBUTTONDOWN:
@@ -27,11 +53,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT m, WPARAM wParam, LPARAM lParam)
             xc = LOWORD(lParam);
             yc = HIWORD(lParam);
             ReleaseDC(hwnd, hdc);
+
         }
             break;
 
         case WM_LBUTTONDOWN:
         {
+
             if (co == 0)
             {
                 hdc = GetDC(hwnd);
@@ -48,14 +76,27 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT m, WPARAM wParam, LPARAM lParam)
 
                 hdc = GetDC(hwnd);
                 //Ellipse_Direct(hdc, xc, yc, A, B, RGB(120, 0, 0));
-                //Ellipse_polar(hdc, xc, yc, A, B, RGB(120, 0, 0));
-                Ellipse_Midpoint(hdc, xc, yc, A, B, RGB(120, 0, 0));
+                Ellipse_polar(hdc, xc, yc, A, B, RGB(120, 0, 0));
+                //Ellipse_Midpoint(hdc, xc, yc, A, B, RGB(120, 0, 0));
                 co = 0;
                 ReleaseDC(hwnd, hdc);
             }
 
-
         }
+            break;
+
+
+
+        case WM_COMMAND:
+
+            if (LOWORD(wParam) == 1)
+            {
+                hdc = GetDC(hwnd);
+                ClearScreen(hdc, windowWidth, windowHeight);
+                ReleaseDC(hwnd, hdc);
+                RedrawWindow(hwnd, NULL, NULL, RDW_INVALIDATE | RDW_UPDATENOW);
+            }
+
             break;
 
 
@@ -74,6 +115,8 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT m, WPARAM wParam, LPARAM lParam)
 
 int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh)
 {
+
+    //RECT rect;
     WNDCLASS wc;
     wc.lpszClassName = "MyClass";
     wc.lpszMenuName = NULL;
@@ -86,10 +129,12 @@ int APIENTRY WinMain(HINSTANCE h, HINSTANCE p, LPSTR cmd, int csh)
     wc.lpfnWndProc = WindowProc;
     wc.hInstance = h;
     RegisterClass(&wc);
-    HWND hWnd = CreateWindow("MyClass", "Hello", WS_OVERLAPPEDWINDOW, 0, 0, 1000, 800, NULL, NULL, h, 0);
+    HWND hWnd = CreateWindow("MyClass", "Graphics projects", WS_OVERLAPPEDWINDOW, 0, 0, 1000, 800, NULL, NULL, h, 0);
+    CreateWindow("BUTTON", "Clear", WS_VISIBLE | WS_CHILD, windowWidth-100, 10, 80, 25, hWnd, (HMENU)1, h, NULL);
     ShowWindow(hWnd, csh);
     UpdateWindow(hWnd);
     MSG msg;
+
     while (GetMessage(&msg, NULL, 0, 0) > 0)
     {
         TranslateMessage(&msg);
