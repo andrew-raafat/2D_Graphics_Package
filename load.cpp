@@ -1,13 +1,3 @@
-void translate(HDC hdc ,string func)
-{
-    string type = ""+func[0]+ func[1];
-    if(type == "")
-    {
-
-    }
-
-}
-
 void translateToCircle(HDC hdc ,string func)  // dc10,20,30,255,0,0
 {
     vector<string> s;
@@ -31,7 +21,7 @@ void translateToCircle(HDC hdc ,string func)  // dc10,20,30,255,0,0
     g = stoi(s[4]);
     b = stoi(s[5]);
 
-    //DrawCircle(hdc, p1, p2 , r, RGB(r,g,b));
+    ModifiedMidPoint(hdc,p1 , p2 , R , RGB(r,g,b));
 }
 
 void translateToLine(HDC hdc , string func){ // dl50,30,20,40,r,g,b
@@ -55,7 +45,7 @@ void translateToLine(HDC hdc , string func){ // dl50,30,20,40,r,g,b
     r = stoi(s[4]);
     g = stoi(s[5]);
     b = stoi(s[6]);
-    //DrawLine(hdc , xs , ys , xe , ye , RGB(r, g ,b));
+    Line_DDA(hdc , xs , ys , xe , ye , RGB(r, g ,b));
 }
 
 
@@ -82,12 +72,16 @@ void translateToCircleLines(HDC hdc , string func){ // l1xc,yc,R,r,g,b
     switch(func[1])     // function to call missing
     {
         case '1':
+            DrawLinesFirstHalf(hdc ,xc , yc ,R , RGB(r ,g ,b));
             break;
         case '2':
+            DrawLinesSecondHalf(hdc ,xc , yc ,R , RGB(r ,g ,b));
             break;
         case '3':
+            DrawLinesThirdHalf(hdc ,xc , yc ,R , RGB(r ,g ,b));
             break;
         case '4':
+            DrawLinesFourthHalf(hdc ,xc , yc ,R , RGB(r ,g ,b));
             break;
 
     }
@@ -118,12 +112,16 @@ void translateToCircleCircles(HDC hdc , string func) // c1xc,yc,R,r,g,b
     switch(func[1])     // function to call missing
     {
         case '1':
+            drawCircleFirstHalf(hdc , xc , yc , R , RGB(r,g,b));
             break;
         case '2':
+            drawCircleSecondHalf(hdc , xc , yc , R , RGB(r,g,b));
             break;
         case '3':
+            drawCircleThirdHalf(hdc , xc , yc , R , RGB(r,g,b));
             break;
         case '4':
+            drawCircleFourthHalf(hdc , xc , yc , R , RGB(r,g,b));
             break;
 
     }
@@ -226,10 +224,10 @@ void translateToConvexFilling(HDC hdc , string func){ //cfn,nx,ny,r,g,b,$
     g = stoi(s[1]);
     b = stoi(s[2]);
 
-    // call function non convex;
+    NonConvexFilling(hdc , P , n , RGB(r,g,b));
 }
 
-void translateFloodFill(HDC hdc , string func){ //flx,y,r,g,b
+void translateToFloodFill(HDC hdc , string func){ //flx,y,r,g,b
     vector<string> s;
     string temp = "";
     int x , y , r , g , b;
@@ -249,7 +247,7 @@ void translateFloodFill(HDC hdc , string func){ //flx,y,r,g,b
     g = stoi(s[3]);
     b = stoi(s[4]);
 
-    // call non recursive flood filling
+    non_recFloodFill(hdc ,x ,y ,RGB(0 , 0 ,0) ,RGB(r,g,b));
 }
 
 void translateToElipse(HDC hdc , string func) // elxc,yc,a,b,r,g,b
@@ -274,7 +272,7 @@ void translateToElipse(HDC hdc , string func) // elxc,yc,a,b,r,g,b
     r = stoi(s[4]);
     g = stoi(s[5]);
     b = stoi(s[6]);
-    // function call
+    Ellipse_Midpoint(hdc , xc , yc , A,B,RGB(r,g,b));
 }
 
 void translateToRectangleSquareClipping(HDC hdc , string func){  //"pcn, l, r, t, b$"
@@ -297,7 +295,7 @@ void translateToRectangleSquareClipping(HDC hdc , string func){  //"pcn, l, r, t
     t = stoi(s[3]);
     b = stoi(s[4]);
 
-    // call the function
+    //clipPolygon() tazbet
 }
 
 void translateToPolygonClipping(HDC hdc , string func){ //pcn,arr,xleft,xright,ytop,ybottom,r,g,b,
@@ -356,22 +354,81 @@ void translateToPolygonClipping(HDC hdc , string func){ //pcn,arr,xleft,xright,y
     g = stoi(s[5]);
     b = stoi(s[6]);
 
-    // call the function
+    //clipPolygon() tazbet
+}
+
+void translate(HDC hdc ,string func)
+{
+    string type = "";
+    type += func[0];
+    type += func[1];
+
+    if(type == "dc")
+    {
+        translateToCircle(hdc , func);
+    }
+    else if(type == "dl")
+    {
+        translateToLine(hdc , func);
+    }
+    else if(type == "l1" || type == "l2" || type == "l3" || type == "l4" )
+    {
+        translateToCircleLines(hdc , func);
+    }
+    else if(type == "c1" ||type == "c2" ||type == "c3" ||type == "c4"  )
+    {
+        translateToCircleCircles(hdc , func);
+    }
+    else if(type == "sh")
+    {
+        translateToSquareHermite(hdc , func);
+    }
+    else if(type == "rb")
+    {
+        translateToRectangleBezier(hdc , func);
+    }
+    else if(type == "cf")
+    {
+        translateToConvexFilling(hdc , func);
+    }
+    else if(type == "fl")
+    {
+        translateToFloodFill(hdc , func);
+    }
+    else if(type == "el")
+    {
+        translateToElipse(hdc , func);
+    }
+    else if(type == "pc")
+    {
+        translateToPolygonClipping(hdc , func);
+    }
+
+
 }
 
 
 void readLoadFromFile(HDC hdc){
-    string code;
+    ifstream file("saved.txt");
+    string code = "";
     string func = "";
+
+    while(file.good())
+    {
+        file>>code;
+    }
+
     for(int i=0; i<code.size(); i++)
     {
     if(code[i] == '$')
     {
         translate(hdc ,func);
-        func.clear();
+        func = "";
         continue;
     }
     func += code[i];
     }
+
+    file.close();
 }
 

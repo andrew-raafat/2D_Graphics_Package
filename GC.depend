@@ -1,20 +1,22 @@
 # depslib dependency file v1.0
-1684005299 source:c:\users\moaya\onedrive\desktop\all project\gc\main.cpp
+1684013207 source:c:\users\moaya\onedrive\desktop\all project\gc\main.cpp
 	<tchar.h>
 	<string>
 	<windows.h>
 	<iostream>
 	<cmath>
 	<vector>
+	<fstream>
 	"CircleAlgorithms.cpp"
 	"curvefilling.cpp"
 	"Ellipse.cpp"
 	"FillingCircle.cpp"
 	"FloodFill.cpp"
-	"load.cpp"
 	"GeneralPolygonFilling.cpp"
 	"CircleFilling.cpp"
+	"Line.cpp"
 	"Save.cpp"
+	"load.cpp"
 
 1683583849 c:\users\moaya\onedrive\desktop\all project\gc\circlealgorithms.cpp
 
@@ -29,7 +31,7 @@
 
 1683583849 c:\users\moaya\onedrive\desktop\all project\gc\floodfill.cpp
 
-1684001915 c:\users\moaya\onedrive\desktop\all project\gc\load.cpp
+1684012754 c:\users\moaya\onedrive\desktop\all project\gc\load.cpp
 
 1684004998 c:\users\moaya\onedrive\desktop\all project\gc\generalpolygonfilling.cpp
 	<list>
@@ -37,5 +39,7 @@
 
 1684005235 c:\users\moaya\onedrive\desktop\all project\gc\circlefilling.cpp
 
-1684005036 c:\users\moaya\onedrive\desktop\all project\gc\save.cpp
+1684012340 c:\users\moaya\onedrive\desktop\all project\gc\save.cpp
+
+1684008813 c:\users\moaya\onedrive\desktop\all project\gc\line.cpp
 

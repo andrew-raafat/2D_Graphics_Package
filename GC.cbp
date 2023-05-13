@@ -55,6 +55,9 @@
 		<Unit filename="GeneralPolygonFilling.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="Line.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="Save.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

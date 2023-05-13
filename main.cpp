@@ -10,15 +10,17 @@
 #include <iostream>
 #include <cmath>
 #include <vector>
+#include <fstream>
 #include "CircleAlgorithms.cpp"
 #include "curvefilling.cpp"
 #include "Ellipse.cpp"
 #include "FillingCircle.cpp"
 #include "FloodFill.cpp"
-#include "load.cpp"
 #include "GeneralPolygonFilling.cpp"
 #include "CircleFilling.cpp"
+#include "Line.cpp"
 #include "Save.cpp"
+#include "load.cpp"
 
 
 /*  Declare Windows procedure  */
@@ -388,14 +390,18 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
         break;
     case WM_RBUTTONDBLCLK:
     {
-        m.draw(hdc, color);
-        // clipping rectangle
-        mPolygon r = mPolygon();
-        r.add_Vertex(80, 40);
-        r.add_Vertex(80, 140);
-        r.add_Vertex(110, 140);
-        r.add_Vertex(110, 40);
-        r.draw(hdc,color);
+//        m.draw(hdc, color);
+//        // clipping rectangle
+//        mPolygon r = mPolygon();
+//        r.add_Vertex(80, 40);
+//        r.add_Vertex(80, 140);
+//        r.add_Vertex(110, 140);
+//        r.add_Vertex(110, 40);
+//        r.draw(hdc,color);
+
+//        fillRectangleBezierCurve(hdc ,Point(100 , 100) , 40 , 30 , RGB(0,0,0));
+//        save("rb",100 , 100 , 40 ,30 , 0 , 0 ,0);
+      readLoadFromFile(hdc);
         break;
     }
     case WM_LBUTTONDBLCLK:
