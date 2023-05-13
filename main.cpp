@@ -6,6 +6,12 @@
 
 #include <tchar.h>
 #include <windows.h>
+#include <string>
+#include <iostream>
+using namespace std;
+#include <vector>
+#include "curvefilling.cpp"
+#include "load.cpp"
 
 /*  Declare Windows procedure  */
 LRESULT CALLBACK WindowProcedure (HWND, UINT, WPARAM, LPARAM);
@@ -32,7 +38,7 @@ int WINAPI WinMain (HINSTANCE hThisInstance,
     /* Use default icon and mouse-pointer */
     wincl.hIcon = LoadIcon (NULL, IDI_APPLICATION);
     wincl.hIconSm = LoadIcon (NULL, IDI_APPLICATION);
-    wincl.hCursor = LoadCursor (NULL, IDC_ARROW);
+    wincl.hCursor = LoadCursor (NULL, IDC_CROSS);
     wincl.lpszMenuName = NULL;                 /* No menu */
     wincl.cbClsExtra = 0;                      /* No extra bytes after the window class */
     wincl.cbWndExtra = 0;                      /* structure or the window instance */
@@ -82,6 +88,14 @@ LRESULT CALLBACK WindowProcedure (HWND hwnd, UINT message, WPARAM wParam, LPARAM
 {
     switch (message)                  /* handle the messages */
     {
+        case WM_RBUTTONDOWN:
+            //drawRectangle(GetDC(hwnd) , Point(200 , 200 ) , 200 , 350 , RGB(0 , 0 ,0));
+            DrawSquare(GetDC(hwnd) , Point ( 300 , 300) , 200 ,  RGB(0 , 0 ,0));
+            break;
+        case WM_LBUTTONDOWN:
+            //fillRectangleBezierCurve(GetDC(hwnd) ,  Point(200 , 200 ) , 200 , 350 ,RGB(0 , 0 , 255)  );
+            //fillSquareHermiteCurves(GetDC(hwnd) , Point(300 , 300 ) , 200 ,  RGB(255 , 0 ,0));
+            break;
         case WM_DESTROY:
             PostQuitMessage (0);       /* send a WM_QUIT to the message queue */
             break;
