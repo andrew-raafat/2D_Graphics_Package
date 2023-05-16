@@ -24,15 +24,7 @@ void CircleFasterBresenham(HDC hdc, int xc, int yc, int R, COLORREF color)
     }
 }
 
-void swap(int &x1, int &y1, int &x2, int &y2)
-{
-    int tmp = x1;
-    x1 = x2;
-    x2 = tmp;
-    tmp = y1;
-    y1 = y2;
-    y2 = tmp;
-}
+
 
 void drawLineMidPoint(HDC hdc, int x1, int y1, int x2, int y2, COLORREF color)
 {

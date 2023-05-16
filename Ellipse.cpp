@@ -1,10 +1,4 @@
-#include <Windows.h>
-#include<bits/stdc++.h>
-#include<math.h>
-
-
 using namespace std;
-
 
 /*
 equation of Ellipse =((x - xc)^2 / A^2) + ((y - yc)^2 / B^2) = 1
@@ -77,7 +71,7 @@ void Ellipse_polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
     int x = A;
     int y = 0;
-    double theta = 0, dtheta = 1.0 / max(A, B);
+    double theta = 0, dtheta = 1.0 / std:: max(A, B);
     draw4Points(hdc, xc, yc, x, y, color);
 
     while (x > 0)

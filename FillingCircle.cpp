@@ -1,3 +1,5 @@
+using namespace std;
+
 
 void FillCircle(HDC hdc, int xc, int yc, int R, int quarter, COLORREF c)
 {

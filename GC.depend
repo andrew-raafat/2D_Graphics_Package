@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1684013207 source:c:\users\moaya\onedrive\desktop\all project\gc\main.cpp
+1684268606 source:c:\users\moaya\onedrive\desktop\all project\gc\main.cpp
 	<tchar.h>
 	<string>
 	<windows.h>
@@ -7,6 +7,11 @@
 	<cmath>
 	<vector>
 	<fstream>
+	<list>
+	<unordered_map>
+	<stack>
+	<math.h>
+	"Helper.cpp"
 	"CircleAlgorithms.cpp"
 	"curvefilling.cpp"
 	"Ellipse.cpp"
@@ -15,31 +20,31 @@
 	"GeneralPolygonFilling.cpp"
 	"CircleFilling.cpp"
 	"Line.cpp"
+	"PolygonClipping.cpp"
 	"Save.cpp"
 	"load.cpp"
 
 1683583849 c:\users\moaya\onedrive\desktop\all project\gc\circlealgorithms.cpp
 
-1684004493 c:\users\moaya\onedrive\desktop\all project\gc\curvefilling.cpp
+1684265350 c:\users\moaya\onedrive\desktop\all project\gc\curvefilling.cpp
 
-1683651914 c:\users\moaya\onedrive\desktop\all project\gc\ellipse.cpp
-	<Windows.h>
-	<bits/stdc++.h>
-	<math.h>
+1684265937 c:\users\moaya\onedrive\desktop\all project\gc\ellipse.cpp
 
-1683583849 c:\users\moaya\onedrive\desktop\all project\gc\fillingcircle.cpp
+1684265951 c:\users\moaya\onedrive\desktop\all project\gc\fillingcircle.cpp
 
-1683583849 c:\users\moaya\onedrive\desktop\all project\gc\floodfill.cpp
+1684265383 c:\users\moaya\onedrive\desktop\all project\gc\floodfill.cpp
 
-1684012754 c:\users\moaya\onedrive\desktop\all project\gc\load.cpp
+1684268777 c:\users\moaya\onedrive\desktop\all project\gc\load.cpp
 
-1684004998 c:\users\moaya\onedrive\desktop\all project\gc\generalpolygonfilling.cpp
-	<list>
-	<unordered_map>
+1684265427 c:\users\moaya\onedrive\desktop\all project\gc\generalpolygonfilling.cpp
 
-1684005235 c:\users\moaya\onedrive\desktop\all project\gc\circlefilling.cpp
+1684265288 c:\users\moaya\onedrive\desktop\all project\gc\circlefilling.cpp
 
 1684012340 c:\users\moaya\onedrive\desktop\all project\gc\save.cpp
 
 1684008813 c:\users\moaya\onedrive\desktop\all project\gc\line.cpp
+
+1684265428 c:\users\moaya\onedrive\desktop\all project\gc\helper.cpp
+
+1684267067 c:\users\moaya\onedrive\desktop\all project\gc\polygonclipping.cpp
 

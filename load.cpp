@@ -326,13 +326,15 @@ void translateToPolygonClipping(HDC hdc , string func){ //pcn,arr,xleft,xright,y
             s.push_back(temp);
             temp = "";
             cnt++;
-            break;
+            continue;
         }
         temp += func[i];
     }
 
     for(int j = 0 ; j <s.size() ; j+=2 )
-        P.push_back(Point(stoi(s[j]) , stoi(s[j+1])));
+        {
+            P.push_back(Point(stoi(s[j]) , stoi(s[j+1])));
+        }
 
     s.clear();
     for(i = i ; i< func.size() ; i++)
@@ -340,6 +342,7 @@ void translateToPolygonClipping(HDC hdc , string func){ //pcn,arr,xleft,xright,y
         if(func[i] == ',')
         {
             s.push_back(temp);
+            cout<<temp << " "<<endl;
             temp = "";
             continue;
         }
@@ -350,12 +353,78 @@ void translateToPolygonClipping(HDC hdc , string func){ //pcn,arr,xleft,xright,y
     xright = stoi(s[1]);
     ytop= stoi(s[2]);
     ybottom = stoi(s[3]);
-    r = stoi(s[4]);
-    g = stoi(s[5]);
-    b = stoi(s[6]);
 
-    //clipPolygon() tazbet
+    mPolygon polygon;
+    polygon.setVertexList(P);
+    polygon = clipPolygon(polygon , xleft , xright , ytop , ybottom);
+
+    polygon.draw(hdc , RGB(0,0,0));
 }
+
+void translateToCardinalSplines(HDC hdc , string func) //csn,pointsx,pointsy,c,nump,r,g,b,$
+{
+    vector<string> s;
+    int n , num_point , r  ,g , b;
+    double c;
+    string temp = "";
+    int i;
+    for( i=2; i<func.size(); i++)
+    {
+    if(func[i] == ',')
+    {
+        n = stoi(temp);
+        temp = "";
+        break;
+    }
+    temp += func[i];
+    }
+
+    Point* P = new Point [n];
+    int cnt = 0;
+    for(i = i+1 ; ; i++)
+    {
+        if(cnt == n * 2)
+            break;
+
+        if(func[i] == ',')
+        {
+            s.push_back(temp);
+            temp = "";
+            cnt++;
+            continue;
+        }
+        temp += func[i];
+    }
+
+    int index = 0;
+    for(int j = 0 ; j <s.size() ; j+=2 )
+        {
+            P[index++] =(Point(stoi(s[j]) , stoi(s[j+1])));
+        }
+
+    s.clear();
+    for(i = i ; i< func.size() ; i++)
+    {
+        if(func[i] == ',')
+        {
+            s.push_back(temp);
+            cout<<temp << " "<<endl;
+            temp = "";
+            continue;
+        }
+        temp += func[i];
+    }
+
+    c = stoi(s[0]);
+    num_point = stoi(s[1]);
+    r = stoi(s[2]);
+    g = stoi(s[3]);
+    b = stoi(s[4]);
+
+
+    Cardinal_Spline(hdc ,P , n , c , num_point , RGB(r, g ,b));
+}
+
 
 void translate(HDC hdc ,string func)
 {
@@ -402,6 +471,10 @@ void translate(HDC hdc ,string func)
     else if(type == "pc")
     {
         translateToPolygonClipping(hdc , func);
+    }
+    else if(type == "cs")
+    {
+        translateToCardinalSplines(hdc , func);
     }
 
 

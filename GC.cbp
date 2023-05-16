@@ -37,6 +37,9 @@
 			<Add library="kernel32" />
 			<Add library="comctl32" />
 		</Linker>
+		<Unit filename="Cardinal_splines.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="CircleAlgorithms.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
@@ -55,7 +58,13 @@
 		<Unit filename="GeneralPolygonFilling.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="Helper.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="Line.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
+		<Unit filename="PolygonClipping.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
 		<Unit filename="Save.cpp">

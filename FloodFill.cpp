@@ -9,18 +9,7 @@ void recursionFloodFill(HDC hdc, int x, int y, COLORREF bc, COLORREF fc)
     recursionFloodFill(hdc, x, y-1, bc, fc);
     recursionFloodFill(hdc, x, y+1, bc, fc);
 }
-/*
-class Point{
-    public:
-        int x , y ;
 
-    Point(int x = 0 , int y = 0 )
-    {
-        this->x = x;
-        this-> y = y;
-    }
-};
-*/
 void non_recFloodFill(HDC hdc, int x, int y, COLORREF bc, COLORREF fc)
 {
     stack<Point> s;

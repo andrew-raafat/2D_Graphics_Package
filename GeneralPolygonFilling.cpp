@@ -1,16 +1,3 @@
-#include <list>
-#include <unordered_map>
-
-using namespace std;
-
-
-void swap(Point& p1, Point& p2)
-{
-    Point temp = p1;
-    p1 = p2;
-    p2 = temp;
-}
-
 struct EdgeRec
 {
     double x;

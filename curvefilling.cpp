@@ -24,13 +24,6 @@ class Constraint{
 
 };
 
-void swap(int &x , int &y)
-{
-    int temp = x ;
-    x = y;
-    y = temp;
-}
-
 void SimpleDDA(HDC hdc,int xs,int ys,int xe,int ye,COLORREF color)
 {
     int dx=xe-xs;
@@ -60,64 +53,53 @@ void SimpleDDA(HDC hdc,int xs,int ys,int xe,int ye,COLORREF color)
     }
 }
 
-void vectorInit(double* vec)
-{
-    for(int i =0 ; i< 4 ; i++)
-    {
-        vec[i] = 0;
-    }
-}
+//void vectorInit(double* vec)
+//{
+//    for(int i =0 ; i< 4 ; i++)
+//    {
+//        vec[i] = 0;
+//    }
+//}
+//
+//double dotProduct(double *vec1 ,double *vec2)
+//{
+//    return vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2] + vec1[3]*vec2[3] ;
+//}
+//
+//double* rightMultiplication(double matrix[][4] , double* vec1){
+//    double* res = new double [4];
+//    vectorInit(res);
+//
+//    for(int i =0 ; i< 4 ; i++)
+//    {
+//        for(int j = 0 ; j < 4 ; j++ )
+//        {
+//            res[i] += matrix[i][j] * vec1[j];
+//        }
+//
+//    }
+//
+//    return res;
+//}
+//
+//double* GetHermiteCoeff(double x0,double s0,double x1,double s1)
+//{
+//    static double H[4][4]={{2,1,-2,1},
+//    {-3,-2,3,-1},
+//    {0,1,0,0},
+//    {1,0,0,0}};
+//
+//    double* vec = new double [4];
+//    vec[0] = x0;
+//    vec[1] = s0;
+//    vec[2] = x1;
+//    vec[3] = s1;
+//
+//    double* res = rightMultiplication(H , vec);
+//    return res;
+//}
+//
 
-double dotProduct(double *vec1 ,double *vec2)
-{
-    return vec1[0]*vec2[0] + vec1[1]*vec2[1] + vec1[2]*vec2[2] + vec1[3]*vec2[3] ;
-}
-
-double* rightMultiplication(double matrix[][4] , double* vec1){
-    double* res = new double [4];
-    vectorInit(res);
-
-    for(int i =0 ; i< 4 ; i++)
-    {
-        for(int j = 0 ; j < 4 ; j++ )
-        {
-            res[i] += matrix[i][j] * vec1[j];
-        }
-
-    }
-
-    return res;
-}
-
-double* GetHermiteCoeff(double x0,double s0,double x1,double s1)
-{
-    static double H[4][4]={{2,1,-2,1},
-    {-3,-2,3,-1},
-    {0,1,0,0},
-    {1,0,0,0}};
-
-    double* vec = new double [4];
-    vec[0] = x0;
-    vec[1] = s0;
-    vec[2] = x1;
-    vec[3] = s1;
-
-    double* res = rightMultiplication(H , vec);
-    return res;
-}
-
-struct Point{
-double x , y ;
-Point(double x = 0 , double y = 0 ){
-    this->x = x;
-    this-> y = y;
-}
-
-};
-
-int Round(double x){
-    return (int) x+0.5;
-};
 
 int getxConstraintStart(Constraint cons , Point c){
         return c.x - (int)(cons.xCons /2);

@@ -36,6 +36,13 @@ void save(string name, int x, int y, int r , int g , int b)
     MyFile.close();
 }
 
+//csn,pointsx,pointsy,c,nump,r,g,b,$   Cardinal Splines
+//void save(string name , int n , Point* arr , double c , int num_points , r ,g ,b)
+//{
+//
+//}
+
+
 //clipping
 //mPolygon clipPolygon(mPolygon polygon, double xleft, double xright, double ytop, double ybottom)
 void save(string name, int n, Point* arr, double xleft, double xright, double ytop, double ybottom)
