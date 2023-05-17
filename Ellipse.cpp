@@ -24,8 +24,6 @@ B^2x<=A^2y
 
 */
 
-
-
 void draw4Points(HDC hdc, int xc, int yc, int x, int y, COLORREF color)
 {
     SetPixel(hdc, xc + x, yc + y, color);
@@ -33,8 +31,6 @@ void draw4Points(HDC hdc, int xc, int yc, int x, int y, COLORREF color)
     SetPixel(hdc, xc - x, yc - y, color);
     SetPixel(hdc, xc + x, yc - y, color);
 }
-
-
 
 void Ellipse_Direct(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
@@ -62,16 +58,13 @@ void Ellipse_Direct(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         y = sqrt(((A2 * B2) - (x * x * B2)) / (A2));
         draw4Points(hdc, xc, yc, x, y, color);
     }
-
-
 }
 
-
-void Ellipse_polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
+void Ellipse_Polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
     int x = A;
     int y = 0;
-    double theta = 0, dtheta = 1.0 / std:: max(A, B);
+    double theta = 0, dtheta = 1.0 / std::max(A, B);
     draw4Points(hdc, xc, yc, x, y, color);
 
     while (x > 0)
@@ -83,7 +76,6 @@ void Ellipse_polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         draw4Points(hdc, xc, yc, x, y, color);
     }
 }
-
 
 void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
@@ -112,9 +104,6 @@ void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         draw4Points(hdc, xc, yc, x, y, color);
     }
 
-
-
-
     d = B2 * (x + 0.5) * (x + 0.5) + A2 * (y - 1) * (y - 1) - A2 * B2;
 
     while (y > 0)
@@ -135,7 +124,3 @@ void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         draw4Points(hdc, xc, yc, x, y, color);
     }
 }
-
-
-
-

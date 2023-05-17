@@ -1,6 +1,3 @@
-
-typedef std::vector<Point> VertexList;
-
 class mPolygon
 {
 private:
@@ -12,6 +9,10 @@ public:
     {
         vertices.push_back(Point(x, y));
     }
+    void add_Vertex(Point p)
+    {
+        vertices.push_back(p);
+    }
     void draw(HDC hdc, COLORREF c = RGB(0, 0, 0))
     {
         Point v1 = vertices[vertices.size() - 1];
@@ -21,8 +22,9 @@ public:
             v1 = v2;
         }
     }
-    void setVertexList(VertexList V){
-        this-> vertices = V;
+    void setVertexList(VertexList V)
+    {
+        this->vertices = V;
     }
 
     VertexList &getVertexList()
@@ -32,6 +34,10 @@ public:
     int getNumVerices()
     {
         return vertices.size();
+    }
+    void clear()
+    {
+        vertices.clear();
     }
 };
 
@@ -71,7 +77,7 @@ void hIntersect(double x1, double y1, double x2, double y2, double yEdge, double
     yIn = yEdge;
 }
 // Cohen Sutherland
-bool clipLine(double x1, double y1, double x2, double y2, double xleft, double xright, double ytop, double ybottom)
+bool clipLine(double &x1, double &y1, double &x2, double &y2, double xleft, double xright, double ytop, double ybottom)
 {
     OutCode out1 = getOutCode(x1, y1, xleft, xright, ytop, ybottom);
     OutCode out2 = getOutCode(x2, y2, xleft, xright, ytop, ybottom);
