@@ -62,48 +62,56 @@ void drawLineMidPoint(HDC hdc, int x1, int y1, int x2, int y2, COLORREF color)
 
 void DrawLinesFirstHalf(HDC hdc, int xc, int yc, int r, COLORREF color)
 {
+    cout<<"Drawing Lines in First Half"<<endl;
     int R = r * r;
     for (int xe = xc + 1; xe <= xc + r; xe += 1)
     {
         int dx = xe - xc;
         int D = dx * dx;
         int ye = -sqrt(R - D) + yc;
+        cout<<"From: " << xc << " " << yc<< " To: " << xe << " " << ye<<endl;
         drawLineMidPoint(hdc, xc, yc, xe, ye, color);
     }
 }
 
 void DrawLinesSecondHalf(HDC hdc, int xc, int yc, int r, COLORREF color)
 {
+    cout<<"Drawing Lines in Second Half"<<endl;
     int R = r * r;
     for (int xe = xc - 1; xe >= xc - r; xe -= 1)
     {
         int dx = xe - xc;
         int D = dx * dx;
         int ye = -sqrt(R - D) + yc;
+        cout<<"From: " << xc << " " << yc<< " To: " << xe << " " << ye<<endl;
         drawLineMidPoint(hdc, xc, yc, xe, ye, color);
     }
 }
 
 void DrawLinesThirdHalf(HDC hdc, int xc, int yc, int r, COLORREF color)
 {
+    cout<<"Drawing Lines in Third Half"<<endl;
     int R = r * r;
     for (int xe = xc - 1; xe >= xc - r; xe -= 1)
     {
         int dx = xe - xc;
         int D = dx * dx;
         int ye = sqrt(R - D) + yc;
+        cout<<"From: " << xc << " " << yc<< " To: " << xe << " " << ye<<endl;
         drawLineMidPoint(hdc, xc, yc, xe, ye, color);
     }
 }
 
 void DrawLinesFourthHalf(HDC hdc, int xc, int yc, int r, COLORREF color)
 {
+    cout<<"Drawing Lines in Fourth Half"<<endl;
     int R = r * r;
     for (int xe = xc + 1; xe <= xc + r; xe += 1)
     {
         int dx = xe - xc;
         int D = dx * dx;
         int ye = sqrt(R - D) + yc;
+        cout<<"From: " << xc << " " << yc<< " To: " << xe << " " << ye<<endl;
         drawLineMidPoint(hdc, xc, yc, xe, ye, color);
     }
 }
@@ -113,6 +121,7 @@ void drawCircleFirstHalf(HDC hdc, int xc, int yc, int R, COLORREF color)
     int x = 0, y = R;
     int d = 1 - R;
     int c1 = 3, c2 = 5 - 2 * R;
+    cout<<"Draw Circle First Half"<<endl;
     while (x <= y)
     {
         if (d < 0)
@@ -139,6 +148,7 @@ void drawCircleSecondHalf(HDC hdc, int xc, int yc, int R, COLORREF color)
     int x = 0, y = R;
     int d = 1 - R;
     int c1 = 3, c2 = 5 - 2 * R;
+     cout<<"Draw Circle Second Half"<<endl;
     while (x <= y)
     {
         if (d < 0)
@@ -165,6 +175,7 @@ void drawCircleThirdHalf(HDC hdc, int xc, int yc, int R, COLORREF color)
     int x = 0, y = R;
     int d = 1 - R;
     int c1 = 3, c2 = 5 - 2 * R;
+     cout<<"Draw Circle Third Half"<<endl;
     while (x <= y)
     {
         if (d < 0)
@@ -191,6 +202,7 @@ void drawCircleFourthHalf(HDC hdc, int xc, int yc, int R, COLORREF color)
     int x = 0, y = R;
     int d = 1 - R;
     int c1 = 3, c2 = 5 - 2 * R;
+    cout<<"Draw Circle Fourth Half"<<endl;
     while (x <= y)
     {
         if (d < 0)
@@ -212,18 +224,6 @@ void drawCircleFourthHalf(HDC hdc, int xc, int yc, int R, COLORREF color)
     }
 }
 
-int *inputFromUser()
-{
-    int choice1, choice2;
-    cout<<"Choose type of filling\n1. Lines\n2. Circles\nYour choice: ";
-    cin >> choice1;
-    cout<<"\nChoose circle quadrant\n1. First quadrant\n2. Second quadrant\n3. Third quadrant\n4. Fourth quadrant\nYour choice: ";
-    cin >> choice2;
-    int *arr = new int[2];
-    arr[0] = choice1;
-    arr[1] = choice2;
-    return arr;
-}
 
 /*  This function is called by the Windows function DispatchMessage()  */
 //

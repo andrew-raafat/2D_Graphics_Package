@@ -165,6 +165,7 @@ void DrawSquare(HDC hdc, Point c, int l, COLORREF color)
 
 void fillSquareHermiteCurves(HDC hdc, Point c, int l, COLORREF color)
 {
+    cout<<"Filling With Hermite Curves"<<endl;
     int xdown = c.x;
     int xup = xdown;
     int ydown = c.y;
@@ -196,6 +197,7 @@ void drawBezierCurveWithConstraints(HDC hdc, Point P0, Point P1, Point P2, Point
 
 void fillRectangleBezierCurve(HDC hdc, Point c, int w, int l, COLORREF color)
 {
+    cout<<"Filling With Bezier Curves"<<endl;
     int xedge = c.x;
     int yedge = c.y;
     int constraint = yedge + l;

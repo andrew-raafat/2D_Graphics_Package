@@ -34,11 +34,13 @@ void draw4Points(HDC hdc, int xc, int yc, int x, int y, COLORREF color)
 
 void Ellipse_Direct(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
+    cout<<"Drawing Ellipse" << endl;
     double x = A, y = 0;
     double A2 = A * A;
     double B2 = B * B;
 
     draw4Points(hdc, xc, yc, x, y, color);
+    cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
 
     while (y * A2 < x * B2)
     {
@@ -47,6 +49,7 @@ void Ellipse_Direct(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         x = sqrt(((A2 * B2) - (y * y * A2)) / (B2));
 
         draw4Points(hdc, xc, yc, x, y, color);
+        cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
     }
 
     x = 0;
@@ -57,11 +60,13 @@ void Ellipse_Direct(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         x++;
         y = sqrt(((A2 * B2) - (x * x * B2)) / (A2));
         draw4Points(hdc, xc, yc, x, y, color);
+        cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
     }
 }
 
 void Ellipse_Polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
+    cout<<"Drawing Ellipse" << endl;
     int x = A;
     int y = 0;
     double theta = 0, dtheta = 1.0 / std::max(A, B);
@@ -74,11 +79,13 @@ void Ellipse_Polar(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
         y = round(B * sin(theta));
 
         draw4Points(hdc, xc, yc, x, y, color);
+        cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
     }
 }
 
 void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 {
+    cout<<"Drawing Ellipse" << endl;
 
     int x = 0, y = B;
     int A2 = A * A;
@@ -102,6 +109,7 @@ void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 
         x++;
         draw4Points(hdc, xc, yc, x, y, color);
+        cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
     }
 
     d = B2 * (x + 0.5) * (x + 0.5) + A2 * (y - 1) * (y - 1) - A2 * B2;
@@ -122,5 +130,6 @@ void Ellipse_Midpoint(HDC hdc, int xc, int yc, int A, int B, COLORREF color)
 
         y--;
         draw4Points(hdc, xc, yc, x, y, color);
+        cout<< "Drawing 4 Points with: "<< xc << " " << yc << " " << x << " " << y <<endl;
     }
 }

@@ -16,6 +16,7 @@
 #include <cmath>
 #include <math.h>
 #include "Helper.cpp"
+#include "circleIntersectionFilling.cpp"
 #include "Cardinal_splines.cpp"
 #include "CircleAlgorithms.cpp"
 #include "curvefilling.cpp"
@@ -194,7 +195,7 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             break;
         default:
         {
-            if (wParam >= 6 && wParam <= 33)
+            if (wParam >= 6 && wParam <= 34)
             {
                 v.clear();
                 selected = wParam;
@@ -610,6 +611,26 @@ LRESULT CALLBACK WindowProcedure(HWND hwnd, UINT message, WPARAM wParam, LPARAM 
             }
             break;
         }
+        case 34:
+            {
+              Point p = {LOWORD(lParam), HIWORD(lParam)};
+              v.push_back(p);
+
+              if(v.size() == 4)
+              {
+                  int r1 = distance(v[0] , v[1]);
+                  int r2 = distance(v[2] , v[3]);
+                  ModifiedMidPoint(hdc , v[0].x , v[0].y , r1 , RGB(0 , 0 , 0));
+                  save("dc" ,v[0].x , v[0].y , r1 , RC , GC ,BC );
+                  ModifiedMidPoint(hdc , v[2].x , v[2].y , r2 , RGB(0 , 0 , 0));
+                  save("dc" ,v[2].x , v[2].y , r2 , RC , GC ,BC );
+                  Point p = getPoint(r1 , r2 , v[0].x , v[0].y , v[2].x , v[2].y);
+                  non_recFloodFill(hdc , p.x , p.y , RGB(0 , 0 , 0) , color);
+                  save("fl" , p.x , p.y , RC , GC , BC);
+                  v.clear();
+              }
+              break;
+            }
 
         default:
             break;
@@ -736,6 +757,7 @@ void addMenus(HWND hwnd)
     AppendMenu(filling, MF_STRING, 29, "Non-Convex Filling");
     AppendMenu(filling, MF_STRING, 30, "Recursive FloodFill");
     AppendMenu(filling, MF_STRING, 31, "Non-Recursive FloodFill");
+    AppendMenu(filling, MF_STRING, 34, "circleFillIntersection");
 
     AppendMenu(clipping, MF_STRING, 32, "Line Clipping");
     AppendMenu(clipping, MF_STRING, 33, "Polygon Clipping");

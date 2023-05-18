@@ -70,6 +70,9 @@
 		<Unit filename="Save.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
+		<Unit filename="circleIntersectionFilling.cpp">
+			<Option target="&lt;{~None~}&gt;" />
+		</Unit>
 		<Unit filename="curvefilling.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

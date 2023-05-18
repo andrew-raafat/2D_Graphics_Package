@@ -1,3 +1,4 @@
+using namespace std;
 class mPolygon
 {
 private:
@@ -16,8 +17,10 @@ public:
     void draw(HDC hdc, COLORREF c = RGB(0, 0, 0))
     {
         Point v1 = vertices[vertices.size() - 1];
+        cout<<"Drawing Polygon Lines:"<<endl;
         for (Point v2 : vertices)
         {
+            cout<<"From: " << v1.x << " " << v1.y<< " To: " << v2.x << " " << v2.y<<endl;
             Line_DDA(hdc, v1.x, v1.y, v2.x, v2.y, c);
             v1 = v2;
         }
@@ -79,6 +82,7 @@ void hIntersect(double x1, double y1, double x2, double y2, double yEdge, double
 // Cohen Sutherland
 bool clipLine(double &x1, double &y1, double &x2, double &y2, double xleft, double xright, double ytop, double ybottom)
 {
+    cout<<"Line Clipping in Progress"<<endl;
     OutCode out1 = getOutCode(x1, y1, xleft, xright, ytop, ybottom);
     OutCode out2 = getOutCode(x2, y2, xleft, xright, ytop, ybottom);
     while (true)
@@ -117,6 +121,7 @@ bool clipLine(double &x1, double &y1, double &x2, double &y2, double xleft, doub
 // Sutherland hedgeman
 mPolygon clipPolygon(mPolygon polygon, double xleft, double xright, double ytop, double ybottom)
 {
+    cout<<"Polygon Clipping in Progress"<<endl;
     VertexList outList;
     VertexList vertices = polygon.getVertexList();
 

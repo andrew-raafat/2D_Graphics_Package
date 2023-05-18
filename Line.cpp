@@ -1,17 +1,20 @@
 void Line_parametric(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
 {
+    cout<<"Line Parametric"<<endl;
     int dx=x2-x1;
     int dy=y2-y1;
     for (double t = 0; t <= 1; t += 0.001)
     {
         double x = round(x1 + (t * (dx)));
         double y = round(y1 + (t * (dy)));
+        cout<<"x: " << x << " " << "y: "<<y<<endl;
         SetPixel(hdc, x, y, color);
     }
 }
 
 void Line_direct(HDC hdc, int x1, int y1, int x2, int y2,COLORREF Color)
 {
+    cout<<"Line Direct"<<endl;
     int dx = x2 - x1;
     int dy = y2 - y1;
 
@@ -27,11 +30,13 @@ void Line_direct(HDC hdc, int x1, int y1, int x2, int y2,COLORREF Color)
 
         int x = x1;
         SetPixel(hdc, x1, y1, Color);
+        cout<<"x: " << x1 << " " << "y: "<<y1<<endl;
 
 
         while (x < x2) {
             x++;
             double y = round(y1 + (double) (x - x1) * slope);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
             SetPixel(hdc, x, y, Color);
         }
     }
@@ -45,11 +50,13 @@ void Line_direct(HDC hdc, int x1, int y1, int x2, int y2,COLORREF Color)
         }
         int y = y1;
         SetPixel(hdc, x1, y1, Color);
+        cout<<"x: " << x1 << " " << "y: "<<y1<<endl;
 
         while (y < y2) {
             y++;
             double x = round(x1 + (double) (y - y1) * slope);
             SetPixel(hdc, x, y, Color);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
         }
     }
 }
@@ -58,6 +65,7 @@ void Line_direct(HDC hdc, int x1, int y1, int x2, int y2,COLORREF Color)
 
 void Line_DDA(HDC hdc,int x1,int y1,int x2,int y2,COLORREF color)
 {
+    cout<<"Line DDA"<<endl;
     int dx=x2-x1;
     int dy=y2-y1;
     SetPixel(hdc,x1,y1,color);
@@ -71,6 +79,7 @@ void Line_DDA(HDC hdc,int x1,int y1,int x2,int y2,COLORREF color)
             x+=xsign;
             y+=ysign;
             SetPixel(hdc,x,round(y),color);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
         }
     }
     else
@@ -82,12 +91,14 @@ void Line_DDA(HDC hdc,int x1,int y1,int x2,int y2,COLORREF color)
             x+=xsign;
             y+=ysign;
             SetPixel(hdc,round(x),y,color);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
         }
     }
 }
 
 void Line_midpoint(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
 {
+    cout<<"Line MidPoint"<<endl;
     int x, y ;
     int dx = x2 - x1;
     int dy = y2 - y1;
@@ -110,6 +121,7 @@ void Line_midpoint(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
             swap(x1,x2);
         }
         SetPixel(hdc, x, y, color);
+        cout<<"x: " << x << " " << "y: "<<y<<endl;
         while(x<x2)
         {
             if (d < 0)
@@ -127,6 +139,7 @@ void Line_midpoint(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
             }
             x++;
             SetPixel(hdc, x, y, color);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
         }
     }
     else
@@ -147,6 +160,7 @@ void Line_midpoint(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
             swap(y1,y2);
         }
         SetPixel(hdc, x, y, color);
+        cout<<"x: " << x << " " << "y: "<<y<<endl;
         while(y<y2)
         {
             if (d < 0)
@@ -163,6 +177,7 @@ void Line_midpoint(HDC hdc, int x1, int y1, int x2, int y2,COLORREF color)
             }
             y++;
             SetPixel(hdc, x, y, color);
+            cout<<"x: " << x << " " << "y: "<<y<<endl;
         }
     }
 }

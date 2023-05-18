@@ -1,3 +1,4 @@
+using namespace std;
 void vectorInit(double *vec)
 {
     for (int i = 0; i < 4; i++)
@@ -48,6 +49,12 @@ double *GetHermiteCoeff(double x0, double s0, double x1, double s1)
 
 void DrawHermiteCurve(HDC hdc, Point &P0, Point &T0, Point &P1, Point &T1, int numpoints, COLORREF color)
 {
+    cout<<"Drawing Hermite Curve on:"<<endl;
+    cout<< P0.x << " " << P0.y<<endl;
+    cout<< T0.x << " " << T0.y<<endl;
+    cout<< P1.x << " " << P1.y<<endl;
+    cout<< T1.x << " " << T1.y<<endl;
+
     double *xcoeff = GetHermiteCoeff(P0.x, T0.x, P1.x, T1.x);
     double *ycoeff = GetHermiteCoeff(P0.y, T0.y, P1.y, T1.y);
     if (numpoints < 2)
@@ -77,7 +84,7 @@ void DrawHermiteCurve(HDC hdc, Point &P0, Point &T0, Point &P1, Point &T1, int n
 
 void Cardinal_Spline(HDC hdc, VertexList p, double c, int num_points, COLORREF color)
 {
-
+    cout<<"Drawing Cardinal Spline"<<endl;
     double c1 = 1 - c;
     Point T0(c1 * (p[2].x - p[0].x), c1 * (p[2].y - p[0].y));
 
